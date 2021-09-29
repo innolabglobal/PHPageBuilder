@@ -21,6 +21,7 @@
 <!-- TODO: hard coded to add the pagebuilder/grapesjs-component-code-editor.min.js and grapesjs-parser-postcss.min.js-->
 <script type="text/javascript" src="<?= phpb_asset('pagebuilder/grapesjs-component-code-editor.min.js') ?>"></script>
 <script type="text/javascript" src="<?= phpb_asset('pagebuilder/grapesjs-parser-postcss.min.js') ?>"></script>
+<script src="https://unpkg.com/grapesjs-custom-code"></script>
 <script type="text/javascript">
 CKEDITOR.dtd.$editable.a = 1;
 CKEDITOR.dtd.$editable.b = 1;
@@ -87,6 +88,14 @@ window.editor.on('load', function(editor) {
     window.grapesJSLoaded = true;
 });
 window.editor.I18n.addMessages(window.grapesJSTranslations);
+window.editor.on('run:custom-code:open-modal', () =>
+    editor.once('modal:close', () => {
+        const { Commands } = editor;
+        if (Commands.isActive('custom-code:open-modal')) {
+            Commands.stop('custom-code:open-modal');
+        }
+    }),
+);
 
 // load the default or earlier saved page css components
 editor.setStyle(window.initialStyle);
