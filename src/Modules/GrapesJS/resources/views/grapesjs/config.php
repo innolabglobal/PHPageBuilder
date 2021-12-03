@@ -94,6 +94,13 @@ return [
                         'command' => 'open-code',
                         'togglable' => 0,
                         'attributes' => ['title' => 'Open Code'],
+                    ],
+                    [
+                        'id' => 'open-layer-button',
+                        'className' => 'fa fa-bars',
+                        'command' => 'open-layers',
+                        'togglable' => 0,
+                        'attributes' => ['title' => 'Open Layer'],
                     ]
                 ]
             ],
