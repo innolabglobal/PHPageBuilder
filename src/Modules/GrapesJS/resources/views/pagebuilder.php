@@ -13,6 +13,12 @@
     </div>
 </div>
 
+<style>
+    .gjs-layer-name {
+        padding-left: 10px;
+    }
+</style>
+
 <div id="gjs"></div>
 
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.14.0/full-all/ckeditor.js"></script>
