@@ -351,7 +351,7 @@
                 copyable: !1,
                 resizable: !1,
                 editable: !1,
-                layerable: !1,
+                layerable: 1,
                 selectable: !1,
                 hoverable: !1
             })
