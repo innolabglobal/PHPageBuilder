@@ -326,6 +326,10 @@ class Uploader {
                     $resize->resizeTo($this->image_x, $this->image_y, $this->resize_option);
                     $resize->saveImage($path);
                 }
+
+                $file = $_FILES['files']['name'];
+                $this->ftpUpload($path, $file);
+                
                 return true;
             } else {
                 $this->was_uploaded = false;
