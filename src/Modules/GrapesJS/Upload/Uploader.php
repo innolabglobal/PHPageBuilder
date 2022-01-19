@@ -337,6 +337,52 @@ class Uploader {
         return false;
     }
 
+    protected function ftpUpload($path, $file)
+    {
+        $ftp_server = "ftp.innolab.cyou";
+        $ftp_user_name = "cmsshared@innolab.cyou";
+        $ftp_user_pass = "RL0Y_5kpQ6x8";
+        $source_file = $file;
+        $pathDetails = explode('/', $this->file_name);
+        $dir = 'uploads/' . $pathDetails[0];
+        $filename = $pathDetails[1];
+        $destination_file = $dir . '/' . $filename;
+
+        // set up basic connection
+        $conn_id = ftp_ssl_connect($ftp_server);
+
+        // login with username and password
+        $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
+        ftp_pasv($conn_id, true);
+
+        // check connection
+        if ((!$conn_id) || (!$login_result)) {
+            echo "FTP connection has failed!";
+            echo "Attempted to connect to $ftp_server for user $ftp_user_name";
+            exit;
+        } else {
+            echo "Connected to $ftp_server, for user $ftp_user_name";
+        }
+
+        if (ftp_mkdir($conn_id, $dir)) {
+            echo "successfully created $dir\n";
+        } else {
+            echo "There was a problem while creating $dir\n";
+        }
+
+        // upload the file
+        $upload = ftp_put($conn_id, $destination_file, $path, FTP_BINARY);
+        // check upload status
+        if (!$upload) {
+            echo "FTP upload has failed!";
+        } else {
+            echo "Uploaded $source_file to $ftp_server as $destination_file";
+        }
+
+        // close the FTP stream 
+        ftp_close($conn_id);
+    }
+
     /**
      * Create directories recursively.
      *
