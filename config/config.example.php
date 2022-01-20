@@ -39,6 +39,12 @@ return [
         'uploads_folder' => __DIR__ . '/uploads'
     ],
 
+    'ftpconfig' => [
+        'server' => 'FTP_HOST_2',
+        'username' => 'FTP_USERNAME_2',
+        'password' => 'FTP_PASSWORD_2'
+    ],
+
     /*
      |--------------------------------------------------------------------------
      | Auth settings
@@ -174,8 +180,7 @@ return [
      | Important: when overriding a class always extend the original class.
      |
      */
-    'class_replacements' => [
-    ],
+    'class_replacements' => [],
 
     'domains' => [
         'a.com' => 'master',
