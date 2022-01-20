@@ -327,8 +327,7 @@ class Uploader {
                     $resize->saveImage($path);
                 }
 
-                $file = $_FILES['files']['name'];
-                $this->ftpUpload($path, $file);
+                $this->ftpUpload($path);
                 
                 return true;
             } else {
@@ -341,12 +340,11 @@ class Uploader {
         return false;
     }
 
-    protected function ftpUpload($path, $file)
+    protected function ftpUpload($path)
     {
-        $ftp_server = "ftp.innolab.cyou";
-        $ftp_user_name = "cmsshared@innolab.cyou";
-        $ftp_user_pass = "RL0Y_5kpQ6x8";
-        $source_file = $file;
+        $ftp_server = phpb_config('ftpconfig.server');
+        $ftp_user_name = phpb_config('ftpconfig.username');
+        $ftp_user_pass = phpb_config('ftpconfig.password');
         $pathDetails = explode('/', $this->file_name);
         $dir = 'uploads/' . $pathDetails[0];
         $filename = $pathDetails[1];
@@ -361,26 +359,24 @@ class Uploader {
 
         // check connection
         if ((!$conn_id) || (!$login_result)) {
-            echo "FTP connection has failed!";
-            echo "Attempted to connect to $ftp_server for user $ftp_user_name";
-            exit;
-        } else {
-            echo "Connected to $ftp_server, for user $ftp_user_name";
+            $this->was_uploaded = false;
+            $this->error = "FTP connection has failed! Attempted to connect to $ftp_server for user $ftp_user_name";
+            return false;
         }
 
-        if (ftp_mkdir($conn_id, $dir)) {
-            echo "successfully created $dir\n";
-        } else {
-            echo "There was a problem while creating $dir\n";
+        if (!ftp_mkdir($conn_id, $dir)) {
+            $this->was_uploaded = false;
+            $this->error = "There was a problem while creating $dir\n";
+            return false;
         }
 
         // upload the file
         $upload = ftp_put($conn_id, $destination_file, $path, FTP_BINARY);
         // check upload status
         if (!$upload) {
-            echo "FTP upload has failed!";
-        } else {
-            echo "Uploaded $source_file to $ftp_server as $destination_file";
+            $this->was_uploaded = false;
+            $this->error = "FTP upload has failed!";
+            return false;
         }
 
         // close the FTP stream 
