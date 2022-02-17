@@ -77,7 +77,7 @@ class PageBuilder implements PageBuilderContract
         file_put_contents($fullPathWithFileName, $fileContents);
     }
 
-    public function saveAsHtml($page, $currentLanguage, $layout, $domain, $passed_domain, $status)
+    public function saveAsHtml($page, $currentLanguage, $layout, $domain, $status)
     {
         $theme = new Theme(phpb_config('theme'), phpb_config('theme.active_theme'));
         $page->layout = $layout;
@@ -85,13 +85,11 @@ class PageBuilder implements PageBuilderContract
         $pageRenderer->setLanguage($currentLanguage);
         $html = $pageRenderer->render();
         // TODO: the root could be changed if it is not served through laravel
-        if ($passed_domain !== null && $domain === $passed_domain) {
-            if ($status === true) {
-                $this->forceFilePutContents(phpb_config('folders.staging') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '_' . date('Y_m_d_His') . '.html', $html);
-                $this->forceFilePutContents(phpb_config('folders.production') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '.html', $html);
-            }
-            $this->forceFilePutContents(phpb_config('folders.staging') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '.html', $html);
+        if ($status === true) {
+            $this->forceFilePutContents(phpb_config('folders.staging') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '_' . date('Y_m_d_His') . '.html', $html);
+            $this->forceFilePutContents(phpb_config('folders.production') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '.html', $html);
         }
+        $this->forceFilePutContents(phpb_config('folders.staging') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '.html', $html);
     }
 
     /**
