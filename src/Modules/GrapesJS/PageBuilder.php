@@ -87,10 +87,10 @@ class PageBuilder implements PageBuilderContract
         // TODO: the root could be changed if it is not served through laravel
         if ($passed_domain !== null && $domain === $passed_domain) {
             if ($status === true) {
-                $this->forceFilePutContents(phpb_config('folders.staging') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '_' . date('Y_m_d_His') . '.html', $html);
-                $this->forceFilePutContents(phpb_config('folders.production') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '.html', $html);
+                $this->forceFilePutContents($_SERVER['DOCUMENT_ROOT'] . phpb_config('folders.staging') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '_' . date('Y_m_d_His') . '.html', $html);
+                $this->forceFilePutContents($_SERVER['DOCUMENT_ROOT'] . phpb_config('folders.production') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '.html', $html);
             }
-            $this->forceFilePutContents(phpb_config('folders.staging') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '.html', $html);
+            $this->forceFilePutContents($_SERVER['DOCUMENT_ROOT'] . phpb_config('folders.staging') . '/' . $domain . '/' . $currentLanguage . '/' . $page->getRoute() . '.html', $html);
         }
     }
 
