@@ -183,7 +183,7 @@ $(document).ready(function() {
                 type: "POST",
                 url: $("#save-page").data('url'),
                 data: {
-                    data: JSON.stringify(data)
+                    data: encodeURIComponent(JSON.stringify(data))
                 },
                 success: function() {
                     toggleSaving();
